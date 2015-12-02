@@ -300,21 +300,20 @@ function h$markRetained() {
             continue;
         }
 
-
         TRACE_GC("mark retained iteration 2/2");
-	if(IS_MARKED_M(w)) {
-	    if(w.val !== null) {
-		w.val = null;
-	    }
+        if(IS_MARKED_M(w)) {
+            if(w.val !== null) {
+                w.val = null;
+            }
 
-	    if(w.finalizer !== null) {
-		if(!IS_MARKED(w.finalizer)) {
-		    TRACE_GC("following finalizer");
-		    h$follow(w.finalizer);
-		}
-		toFinalize.push(w);
-	    }
-	}
+            if(w.finalizer !== null) {
+                if(!IS_MARKED(w.finalizer)) {
+                    TRACE_GC("following finalizer");
+                    h$follow(w.finalizer);
+                }
+                toFinalize.push(w);
+            }
+        }
     }
 
     /*
@@ -324,7 +323,7 @@ function h$markRetained() {
     h$weakPointerList = newList;
 
     for (i = 0; i < h$weakPointerList.length; ++i) {
-	MARK_OBJ(h$weakPointerList[i]);
+        MARK_OBJ(h$weakPointerList[i]);
     }
 
     return toFinalize;
